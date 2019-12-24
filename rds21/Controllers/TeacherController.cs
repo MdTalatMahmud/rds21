@@ -19,12 +19,23 @@ namespace rds21.Controllers
         [HttpPost]
         public ActionResult TeacherRegistration(Teacher aTeacher)
         {
+            #region Password Hashing 
+
+            aTeacher.Password = Crypto.Hash(aTeacher.Password);
+
+            #endregion
+
+            #region Save to Database
+
             using (RDSDatabaseEntities db = new RDSDatabaseEntities())
             {
                 db.Teachers.Add(aTeacher);
                 db.SaveChanges();
             }
             return View();
+
+            #endregion
+            
         }
     }
 }
